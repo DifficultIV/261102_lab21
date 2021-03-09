@@ -1,3 +1,4 @@
+#define _USE_MATH_DEFINES
 #include<iostream>
 #include<cmath>
 using namespace std;
@@ -29,6 +30,70 @@ ComplexNumber ComplexNumber::operator-(const ComplexNumber &c){
 }
 
 //Write your code here
+ComplexNumber ComplexNumber::operator*(const ComplexNumber &c){
+	double num1,num2,num3,num4;
+	num1 = real*c.real;
+	num2 = real*c.imag;
+	num3 = imag*c.real;
+	num4 = imag*c.imag;
+	return ComplexNumber(num1-num4,num2+num3);
+}
+
+ComplexNumber ComplexNumber::operator/(const ComplexNumber &c){
+	double num1,num2,num3,num4,num5;
+	num1 = real*c.real;
+	num2 = real*c.imag;
+	num3 = imag*c.real;
+	num4 = imag*c.imag;
+	num5 = pow(c.real,2.0) + pow(c.imag,2.0);
+	return ComplexNumber((num1+num4)/num5,(num3-num2)/num5);
+}
+
+bool ComplexNumber::operator==(const ComplexNumber &c){
+	if(real == c.real && imag == c.imag) return true;
+	else return false;
+}
+
+double ComplexNumber::angle(){
+	return atan2(imag,real)*180/ M_PI;
+}
+
+double ComplexNumber::abs(){
+	return sqrt(pow(real,2.0)+pow(imag,2.0));
+}
+
+ComplexNumber operator+(double s,const ComplexNumber &c){
+	return ComplexNumber(s+c.real,c.imag);
+}
+
+ComplexNumber operator-(double s,const ComplexNumber &c){
+	return ComplexNumber(s-c.real,-c.imag);
+}
+
+ComplexNumber operator*(double s,const ComplexNumber &c){
+	return ComplexNumber(s*c.real,s*c.imag);
+}
+
+ComplexNumber operator/(double s,const ComplexNumber &c){
+	double num;
+	num = pow(c.real,2.0) + pow(c.imag,2.0);
+	return ComplexNumber((s*c.real)/num,(s*(-c.imag))/num);
+}
+
+ostream & operator<<(ostream &os,const ComplexNumber &c){
+	if(c.imag == 0) return os << c.real;
+	else if(c.imag < 0){
+	if(c.real == 0) return os << c.imag << "i";	
+	else return os << c.real << c.imag << "i";
+	} 
+	else if(c.real == 0) return os <<c.imag << "i";
+	else return os <<c.real << "+" << c.imag << "i";
+}
+
+ComplexNumber operator==(double s,const ComplexNumber &c){
+	if(s == c.real && s == c.imag) return true;
+	else return false;
+}
 
 int main(){
 	ComplexNumber a(1.5,2),b(3.2,-2.5),c(-1,1.2);	
